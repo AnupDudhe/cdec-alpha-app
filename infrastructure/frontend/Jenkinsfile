@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         TF_DIR = 'infrastructure/frontend'
-        AWS_DEFAULT_REGION = 'eu-west-1'
+        AWS_DEFAULT_REGION = 'ap-southeast-2'
     }
 
     stages {
