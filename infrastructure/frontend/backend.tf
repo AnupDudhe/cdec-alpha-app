@@ -8,7 +8,7 @@ terraform {
   backend "s3" {
     bucket  = "cdec-alpha-terraform-state-anup"
     key     = "frontend/terraform.tfstate"
-    region  = "eu-west-1"
+    region  = "ap-southeast-2"
     encrypt = true
     # profile = "terraform-sessions"
 
