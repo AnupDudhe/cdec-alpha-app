@@ -11,13 +11,13 @@ variable "environment" {
 variable "name_prefix" {
   description = "Override for resource name prefix. Defaults to {application}-{environment}."
   type        = string
-  default     = null
+  default     = cbzpbanup #null
 }
 
 variable "bucket_name" {
   description = "S3 bucket name for frontend assets. Must be globally unique. Defaults to {name_prefix}-frontend."
   type        = string
-  default     = null
+  default     = cbzpbanupfe  #null
 }
 
 variable "force_destroy" {
