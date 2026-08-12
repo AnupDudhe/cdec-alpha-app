@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: course-service
-          image: 933516006319.dkr.ecr.eu-west-1.amazonaws.com/backend/course-service:latest
+          image: 365642143872.dkr.ecr.eu-west-1.amazonaws.com/backend/course-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
