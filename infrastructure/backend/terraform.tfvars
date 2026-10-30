@@ -1,6 +1,6 @@
 # Copy to terraform.tfvars. Do not commit terraform.tfvars.
 
-aws_region   = "eu-west-1"
+aws_region   = "us-east-1"
 environment  = "dev"
 project_name = "cdec-alpha"
 cluster_name = "cdec-eks-dev"
@@ -35,5 +35,5 @@ additional_tags = {
 # ALB Ingress — AWS Load Balancer Controller + API ingress
 enable_alb_ingress  = true
 ingress_host        = "api.infra-software-architect.online"
-acm_certificate_arn = "arn:aws:acm:eu-west-1:365642143872:certificate/b95066d1-8b56-4a16-8e1b-a0d2d775fc24"
+acm_certificate_arn = "arn:aws:acm:us-east-1:593402827940:certificate/c7a03da2-5599-4764-82ad-927baff32f0c"
 alb_name            = "cdec-alpha-alb"
