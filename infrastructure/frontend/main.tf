@@ -24,7 +24,8 @@ module "cloudfront" {
   force_destroy     = var.force_destroy
   enable_versioning = var.enable_versioning
 
-  aliases             = local.cloudfront_aliases
+  #aliases             = local.cloudfront_aliases
+  aliases = []
   acm_certificate_arn = var.acm_certificate_arn
   enable_spa_routing  = var.enable_spa_routing
 
