@@ -14,12 +14,12 @@ pipeline {
     parameters {
         string(
             name: 'S3_BUCKET',
-            defaultValue: 'cdec-alpha-cbzpb-dev-frontend', 
+            defaultValue: 'cdec-alpha-cbzpb3738-dev-frontend', 
             description: 'S3 bucket name for the frontend (e.g. cdec-frontend-dev-frontend)'
         )
         string(
             name: 'CLOUDFRONT_DISTRIBUTION_ID',
-            defaultValue: 'E3QOZ8B1IDKTCV',
+            defaultValue: 'E2TL4UD7PWJ2E3',
             description: 'CloudFront distribution ID (e.g. E1234567890ABC)'
         )
         string(
@@ -41,7 +41,7 @@ pipeline {
 
     environment {
         APP_DIR = 'application/frontend'
-        AWS_DEFAULT_REGION = 'eu-west-1'
+        AWS_DEFAULT_REGION = 'us-east-1'
     }
 
     stages {
