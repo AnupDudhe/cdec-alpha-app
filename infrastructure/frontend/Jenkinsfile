@@ -66,7 +66,7 @@ pipeline {
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
                     dir(env.TF_DIR) {
-                        sh 'terraform apply -input=false -auto-approve -var-file=terraform.tfvars'
+                        sh 'terraform destroy -input=false -auto-approve -var-file=terraform.tfvars'
                     }
                 }
             }
