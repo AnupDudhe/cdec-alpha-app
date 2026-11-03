@@ -1,6 +1,4 @@
 // Frontend Terraform pipeline
-// Requires: terraform, aws-frontend-terraform credentials, terraform.tfvars and backend.hcl in TF_DIR
-
 pipeline {
     agent {
         label 'ecs2'
@@ -8,18 +6,19 @@ pipeline {
 
     environment {
         TF_DIR = 'infrastructure/frontend'
-        AWS_DEFAULT_REGION = 'ap-southeast-2'
+        // Updated to match your ECS cluster region (Mumbai)
+        AWS_DEFAULT_REGION = 'ap-south-1' 
+        AWS_REGION = 'ap-south-1'
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/AnupDudhe/cdec-alpha-app.git', branch: 'main'
             }
         }
 
-        stage('Terraform Init') {
+        stage('Terraform Operations') {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -28,47 +27,26 @@ pipeline {
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
                     dir(env.TF_DIR) {
-                        sh 'terraform init -input=false'
+                        // Pass backend config during init
+                        sh 'terraform init -input=false -backend-config=backend.hcl'
+                        
+                        sh 'terraform validate'
+                        
+                        sh 'terraform plan -input=false -var-file=terraform.tfvars -out=tfplan'
+                        
+                        // Apply the saved execution plan directly for safe & fast execution
+                        sh 'terraform apply -input=false -auto-approve tfplan'
                     }
                 }
             }
         }
+    }
 
-        stage('Terraform Validate') {
-            steps {
-                dir(env.TF_DIR) {
-                    sh 'terraform validate'
-                }
-            }
-        }
-
-        stage('Terraform Plan') {
-            steps {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-frontend-terraform',
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                ]]) {
-                    dir(env.TF_DIR) {
-                        sh 'terraform plan -input=false -var-file=terraform.tfvars'
-                    }
-                }
-            }
-        }
-
-        stage('Terraform Apply') {
-            steps {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-frontend-terraform',
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                ]]) {
-                    dir(env.TF_DIR) {
-                        sh 'terraform apply -input=false -auto-approve -var-file=terraform.tfvars'
-                    }
-                }
+    post {
+        always {
+            // Clean up plan files to prevent leaking sensitive state
+            dir(env.TF_DIR) {
+                sh 'rm -f tfplan'
             }
         }
     }
